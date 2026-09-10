@@ -3,10 +3,7 @@ import os
 import sqlite3
 
 
-DB_PATH = os.path.join(
-    os.path.dirname(__file__),
-    "expenses.db"
-)
+DB_PATH = os.path.join(os.path.dirname(__file__),"expenses.db")
 
 
 # Create a FastMCP server instance
