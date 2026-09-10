@@ -7,12 +7,16 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 from langgraph.prebuilt import ToolNode, tools_condition
 from langchain_core.tools import tool, BaseTool
 import asyncio
-
+from langgraph.checkpoint.sqlite import SqliteSaver
+import sqlite3
 
 load_dotenv()
 
+conn = sqlite3.connect(database='chatbot.db',check_same_thread=False)
+checkpointer = SqliteSaver(conn=conn)
+
 class ChatState(TypedDict):
-    messages: list[str]
+    messages: Annotated[list[BaseMessage],add_messages]
 
 
 model = HuggingFaceEndpoint(
@@ -31,11 +35,10 @@ async def chat_node(state: ChatState):
         "messages": [response]
     }
 
-# graph = StateGraph(ChatState)
 
 client = MultiServerMCPClient(
     {
-        "arith": {
+        "expense-tracker": {
             "transport": "stdio",
             "command": "/home/krishna_chouhan/projects/Nexora/.venv/bin/python",
             "args": ["/home/krishna_chouhan/projects/Nexora/expense-tracker-mcp/main.py"],          
@@ -51,20 +54,14 @@ client = MultiServerMCPClient(
 async def load_mcp_tools() -> list[BaseTool]:
 
     try:
-
         tools = await client.get_tools()
-
         print("\nMCP Tools:")
-
         for t in tools:
             print("-", t.name)
-
         return tools
 
     except Exception as e:
-
         print("Error loading MCP tools:", e)
-
         return []
 
 
@@ -81,37 +78,21 @@ async def main():
     # ---------------------------------------------
 
     if tools:
-
         llm_with_tools_local = llm.bind_tools(tools)
-
     else:
-
         llm_with_tools_local = llm
     
-
-
     graph = StateGraph(ChatState)
 
 
     async def chat_node(state: ChatState):
-
         messages = state["messages"]
-
-        response = await llm_with_tools_local.ainvoke(
-            messages
-        )
-
-        return {
-            "messages": [response]
-        }
-    
-
+        response = await llm_with_tools_local.ainvoke(messages)
+        return {"messages": [response]}
     
     graph.add_node(chat_node,'chat_node')
     graph.add_edge(START,'chat_node')
 
-
-       
     if tools:
         tool_node = ToolNode(tools)
 
@@ -122,11 +103,11 @@ async def main():
         graph.add_edge("chat_node", END)
 
         
-    chatbot = graph.compile()
+    chatbot = graph.compile(checkpointer=checkpointer)
 
     result  = await chatbot.ainvoke({
             "messages": [
-                ""'Add an expense with date 2026-09-05, amount 50, category transport, subcategory empty, and note Traveling to home town for Diwali vacation'""
+                "what is the 22k gold means"
             ]
     })
 
