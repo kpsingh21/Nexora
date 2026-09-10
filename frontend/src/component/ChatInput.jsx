@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+// import './Chatwindow/chatinput.css'
 
-function ChatInput() {
+
+function ChatInput(thread_id) {
   const [text, setText] = useState('');
   const [response, setResponse] = useState('');
 
@@ -21,6 +23,7 @@ function ChatInput() {
         },
         body: JSON.stringify({
           msg: text,
+          thread_id: text
         }),
       });
 
@@ -39,7 +42,7 @@ function ChatInput() {
 
   return (
     <>
-      <input
+      {/* <input
         type="text"
         value={text}
         onChange={handleChange}
@@ -52,8 +55,45 @@ function ChatInput() {
 
       <div>
         {response}
-      </div>
+      </div> */}
+
+
+              <div className="message-toolbar">
+
+          {/* <button className="tools-btn" type="button">
+            <span className="plus-icon">＋</span>
+            <span>Tools</span>
+          </button>
+
+          <span className="keyboard-hint">
+            Enter to send&nbsp;&nbsp;•&nbsp;&nbsp;Shift+Enter for new line
+          </span> */}
+
+
+          <input
+                  type="text"
+                  value={text}
+                  className='inputbox'
+                  onChange={handleChange}
+                  placeholder="Ask anything?"
+                />
+          <button
+            className="send-btn"
+            onClick={handleSubmit}
+            type="button"
+            aria-label="Send message"
+          >
+            ↑
+          </button>
+
+        </div>
+
+        <div className="response">
+        {response}
+        </div>
     </>
+
+    
   );
 }
 export default ChatInput;
