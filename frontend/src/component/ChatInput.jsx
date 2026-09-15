@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import './Chatwindow/chatinput.css'
 
 
-function ChatInput(thread_id) {
+function ChatInput({thread_id}) {
   const [text, setText] = useState('');
   const [response, setResponse] = useState('');
 
@@ -23,16 +23,23 @@ function ChatInput(thread_id) {
         },
         body: JSON.stringify({
           msg: text,
-          thread_id: text
+          thread_id: thread_id
         }),
       });
 
       const data = await res.json();
 
-      console.log(data.received_message.messages.content);
+      console.log(data);
+
+      console.log(data.received_message);
+      console.log(data.received_message.messages);
+
+      console.log(data.received_message.messages[1].content);
 
       // Only store the content
-      setResponse(data.received_message.messages.content);
+      // setResponse(data.received_message.messages.content);
+      setResponse(data.received_message.messages[1].content);
+
 
     } catch (error) {
       console.error('Error:', error);
@@ -70,6 +77,10 @@ function ChatInput(thread_id) {
           </span> */}
 
 
+<div className="response">
+        {response}
+        </div>
+
           <input
                   type="text"
                   value={text}
@@ -88,9 +99,7 @@ function ChatInput(thread_id) {
 
         </div>
 
-        <div className="response">
-        {response}
-        </div>
+       
     </>
 
     

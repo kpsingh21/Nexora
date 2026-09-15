@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-function Loadcon({ thread_id }) {
-  const [messages, setMessages] = useState([]);
+function Loadcon({ thread_id , messages,setMsg}) {
+  // const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!thread_id) {
-      setMessages([]);
+      setMsg([]);
       return;
     }
 
@@ -41,11 +41,11 @@ function Loadcon({ thread_id }) {
           ? data
           : data.messages || [];
 
-        setMessages(conversation);
+          setMsg(conversation);
 
       } catch (error) {
         console.error("Error loading conversation:", error);
-        setMessages([]);
+        setMsg([]);
       } finally {
         setLoading(false);
       }

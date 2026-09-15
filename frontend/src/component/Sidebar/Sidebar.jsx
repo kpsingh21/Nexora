@@ -2,7 +2,7 @@
 import "./sidebar.css";
 import React, { useEffect, useState } from "react";
 
-function Sidebar({ onSelectChat, onNewchat }) {
+function Sidebar({ onSelectChat, onNewchat , onNewchatClick,Newthreadid}) {
   const [threads, setThreads] = useState([]);
 
   useEffect(() => {
@@ -44,6 +44,7 @@ function Sidebar({ onSelectChat, onNewchat }) {
     console.log("New thread:", threadId);
 
     onNewchat(threadId);
+    onNewchatClick([]);
   }
 
   return (

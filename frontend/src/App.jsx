@@ -7,6 +7,8 @@ import { useState } from 'react';
 function App() {
   const [selectedThreadId, setSelectedThreadId] = useState();
   const [threadId, setgenthreadId] = useState();
+  const [messages, setMessages] = useState([]);
+
 
 
   return (
@@ -14,8 +16,8 @@ function App() {
       <section id="center">
         <h1>Welcome to Nexora!</h1>
         <p>Next-generation AI assistant</p>
-        <Sidebar  onSelectChat={setSelectedThreadId} onNewchat={setgenthreadId}/>
-        <Loadcon thread_id ={selectedThreadId}/>
+        <Sidebar  onSelectChat={setSelectedThreadId} Newthreadid={setgenthreadId} onNewchat={setgenthreadId} onNewchatClick={setMessages}/>
+        <Loadcon thread_id ={selectedThreadId} messages={messages} setMsg={setMessages}/>
         <ChatInput thread_id={threadId}/>  
       </section>
     </>
