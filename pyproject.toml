@@ -1,0 +1,30 @@
+[project]
+name = "nexora"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Krishnapal Singh", email = "krishna.chouhan@idx.inc" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.5.9",
+    "docx2txt>=0.9",
+    "fastapi>=0.141.1",
+    "fastmcp>=4.0.3",
+    "langchain-community>=0.4.2",
+    "langchain-huggingface>=1.2.2",
+    "langchain-mcp-adapters>=0.3.1",
+    "langchain-ollama>=1.1.0",
+    "langgraph>=1.2.11",
+    "langgraph-checkpoint-sqlite>=3.1.1",
+    "mcp>=2.2.0",
+    "sentence-transformers>=6.0.1",
+]
+
+[project.scripts]
+nexora = "nexora:main"
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"

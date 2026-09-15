@@ -1,0 +1,18 @@
+# MCP 
+fastmcp
+
+
+# backend
+langgraph
+langchain_huggingface
+langgraph-checkpoint-sqlite
+langchain-mcp-adapters
+langchain_ollama
+
+# rag
+docx2txt
+sentence-transformers
+
+# fastapi
+fastapi
+
