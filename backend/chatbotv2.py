@@ -13,17 +13,18 @@ from langgraph.graph.message import add_messages
 from langchain_ollama import ChatOllama
 
 # to import retriver fun from rag
-from rag.retriever import retriever
+# from rag.retriever import retriever
+from backend.rag.retriever import retriever
 
 
 load_dotenv()
 
 conn = sqlite3.connect(database='chatbot.db',check_same_thread=False)
-config = {
-    "configurable": {
-            'thread_id' : '1sssffrsdsdddd'
-        }
-}
+# config = {
+#     "configurable": {
+#             'thread_id' : '1sssffrsdsdddd'
+#         }
+# }
 checkpointer = SqliteSaver(conn=conn)
 
 class ChatState(TypedDict):
@@ -203,10 +204,10 @@ def retrive_all_threads():
         all_threads.add(checkpoint.config['configurable']['thread_id'])
     return list(all_threads)
 
-result  =  chatbot.invoke({
-            "messages": [
-                "what is AGI in AI"
-            ]
-}, config=config)
+# result  =  chatbot.invoke({
+#             "messages": [
+#                 "what is AGI in AI"
+#             ]
+# }, config=config)
 
-print("myres",(result["messages"]))
+# print("myres",(result["messages"]))

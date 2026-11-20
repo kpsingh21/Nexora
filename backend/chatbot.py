@@ -9,6 +9,7 @@ from langchain_core.tools import tool, BaseTool
 import asyncio
 from langgraph.checkpoint.sqlite import SqliteSaver
 import sqlite3
+from langchain_ollama import ChatOllama
 
 load_dotenv()
 
@@ -19,14 +20,21 @@ class ChatState(TypedDict):
     messages: Annotated[list[BaseMessage],add_messages]
 
 
-model = HuggingFaceEndpoint(
-    repo_id="Qwen/Qwen3.8-2.4T-A95B",
-    task="conversational",
-    max_new_tokens=200,
+# model = HuggingFaceEndpoint(
+#     repo_id="Qwen/Qwen3.8-2.4T-A95B",
+#     task="conversational",
+#     max_new_tokens=200,
+#     temperature=0,
+# )
+
+
+llm = ChatOllama(
+    model="gpt-oss:120b-cloud",
     temperature=0,
+    # other params...
 )
 
-llm = ChatHuggingFace(llm=model, verbose=True)
+# llm = ChatHuggingFace(llm=model, verbose=True)
 
 async def chat_node(state: ChatState):
     messages = state["messages"]
@@ -107,7 +115,7 @@ async def main():
 
     result  = await chatbot.ainvoke({
             "messages": [
-                "what is the 22k gold means"
+                "Add expense of 55 rs in transport"
             ]
     })
 

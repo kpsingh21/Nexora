@@ -12,6 +12,8 @@ langchain_ollama
 # rag
 docx2txt
 sentence-transformers
+pypdf
+
 
 # fastapi
 fastapi
